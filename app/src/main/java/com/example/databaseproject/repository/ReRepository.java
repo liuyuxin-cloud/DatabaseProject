@@ -17,13 +17,13 @@ public class ReRepository {
     private RepositoryDao repositoryDao;
     private LiveData<List<Repository>> repositories;
 
-    ReRepository(Application application) {
+    public ReRepository(Application application) {
         BookStoreDatabase db = BookStoreDatabase.getDatabase(application);
         repositoryDao = db.repositoryDao();
         repositories = repositoryDao.getRepository();
     }
 
-    LiveData<List<Repository>> getRepositories() {
+    public LiveData<List<Repository>> getRepositories() {
         return repositories;
     }
 
