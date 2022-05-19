@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "repository")
-public class Repository {
+@Entity(tableName = "depository")
+public class Depository {
 
     @PrimaryKey
     @ColumnInfo(name = "book_id")
@@ -15,7 +15,7 @@ public class Repository {
     @ColumnInfo(name = "book_num")
     private int bookNum;
 
-    public Repository(int bookId, String bookName, int bookNum) {
+    public Depository(int bookId, String bookName, int bookNum) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.bookNum = bookNum;

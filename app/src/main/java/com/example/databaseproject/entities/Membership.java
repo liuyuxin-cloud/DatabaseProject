@@ -2,22 +2,23 @@ package com.example.databaseproject.entities;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
 @Entity(tableName = "membership")
 public class Membership {
-
+    @PrimaryKey
     @ColumnInfo(name = "member_id")
     private int memberId;
     @ColumnInfo(name = "member_name")
     private String memberName;
     @ColumnInfo(name = "register_time")
-    private Date registerTime;
+    private String registerTime;
     @ColumnInfo(name = "total_consumption")
     private double totalConsumption;
 
-    public Membership(int memberId, String memberName, Date registerTime, double totalConsumption) {
+    public Membership(int memberId, String memberName, String registerTime, double totalConsumption) {
         this.memberId = memberId;
         this.memberName = memberName;
         this.registerTime = registerTime;
@@ -40,11 +41,11 @@ public class Membership {
         this.memberName = memberName;
     }
 
-    public Date getRegisterTime() {
+    public String getRegisterTime() {
         return registerTime;
     }
 
-    public void setRegisterTime(Date registerTime) {
+    public void setRegisterTime(String registerTime) {
         this.registerTime = registerTime;
     }
 

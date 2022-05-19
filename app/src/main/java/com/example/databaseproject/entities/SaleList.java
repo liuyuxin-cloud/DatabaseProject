@@ -11,24 +11,27 @@ public class SaleList {
 
     @PrimaryKey
     @ColumnInfo(name = "sale_id")
-    private int SaleId;
+    private int saleId;
     @ColumnInfo(name = "total_price")
     private double totalPrice;
     @ColumnInfo(name = "sale_time")
-    private Date saleTime;
+    private String saleTime;
+    @ColumnInfo(name = "vip_id")
+    private int vipId;
 
-    public SaleList(int saleId, double totalPrice, Date saleTime) {
-        this.SaleId = saleId;
+    public SaleList(int saleId, double totalPrice, String saleTime, int vipId) {
+        this.vipId = vipId;
+        this.saleId = saleId;
         this.totalPrice = totalPrice;
         this.saleTime = saleTime;
     }
 
-    public int getPurchaseId() {
-        return SaleId;
+    public int getSaleId() {
+        return saleId;
     }
 
-    public void setPurchaseId(int purchaseId) {
-        this.SaleId = purchaseId;
+    public void setSaleId(int saleId) {
+        this.saleId = saleId;
     }
 
     public double getTotalPrice() {
@@ -39,11 +42,19 @@ public class SaleList {
         this.totalPrice = totalPrice;
     }
 
-    public Date getPurchaseTime() {
+    public String getSaleTime() {
         return saleTime;
     }
 
-    public void setPurchaseTime(Date purchaseTime) {
-        this.saleTime = purchaseTime;
+    public void setSaleTime(String saleTime) {
+        this.saleTime = saleTime;
+    }
+
+    public int getVipId() {
+        return vipId;
+    }
+
+    public void setVipId(int vipId) {
+        this.vipId = vipId;
     }
 }

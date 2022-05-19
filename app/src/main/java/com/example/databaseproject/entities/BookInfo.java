@@ -18,9 +18,12 @@ public class BookInfo {
     private double bookPrice;
     @ColumnInfo(name = "book_press")
     private String bookPress;
+    @ColumnInfo(name = "book_auth")
+    private String bookAuth;
 
-    public BookInfo(int bookId, String bookName, String bookType, double bookPrice, String bookPress) {
+    public BookInfo(int bookId, String bookName, String bookType, double bookPrice, String bookPress, String bookAuth) {
         this.bookId = bookId;
+        this.bookAuth = bookAuth;
         this.bookName = bookName;
         this.bookType = bookType;
         this.bookPrice = bookPrice;
@@ -66,4 +69,13 @@ public class BookInfo {
     public void setBookPress(String bookPress) {
         this.bookPress = bookPress;
     }
+
+    public String getBookAuth() {
+        return bookAuth;
+    }
+
+    public void setBookAuth(String bookAuth) {
+        this.bookAuth = bookAuth;
+    }
+
 }
