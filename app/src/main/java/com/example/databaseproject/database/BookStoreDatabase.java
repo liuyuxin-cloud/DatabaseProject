@@ -25,7 +25,7 @@ import com.example.databaseproject.entities.SaleInfo;
 import com.example.databaseproject.entities.SaleList;
 
 @Database(entities = {BookInfo.class, Membership.class, PurchaseInfo.class, PurchaseList.class,
-        Depository.class, SaleList.class, SaleInfo.class}, version = 1, exportSchema = false)
+        Depository.class, SaleList.class, SaleInfo.class}, version = 2, exportSchema = false)
 public abstract class BookStoreDatabase extends RoomDatabase {
 
     public abstract BookInfoDao bookInfoDao();

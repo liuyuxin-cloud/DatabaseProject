@@ -21,7 +21,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.Purcha
     private final LayoutInflater mInflater;
     private List<PurchaseList> mLists;
 
-    PurchaseAdapter(Context context) {
+    public PurchaseAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
     @NonNull
@@ -41,7 +41,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.Purcha
         }
     }
 
-    void setmLists(List<PurchaseList> lists) {
+    public void setmLists(List<PurchaseList> lists) {
         mLists = lists;
         notifyDataSetChanged();
     }

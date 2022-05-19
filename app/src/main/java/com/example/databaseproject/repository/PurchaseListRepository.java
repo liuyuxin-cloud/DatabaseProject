@@ -14,7 +14,7 @@ public class PurchaseListRepository {
 
     private PurchaseListDao purchaseListDao;
 
-    public LiveData<List<PurchaseList>> getPurchaseInfo() {
+    public LiveData<List<PurchaseList>> getPurchaseList() {
         return purchaseList;
     }
 
