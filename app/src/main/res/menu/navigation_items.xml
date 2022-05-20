@@ -4,14 +4,22 @@
     <item
         android:id="@+id/cangku"
         android:title="@string/cangku"
+        android:icon="@drawable/ic_baseline_storage_24"
         />
 
     <item
         android:id="@+id/xiaoshou"
-        android:title="@string/xiaoshou"/>
+        android:title="@string/xiaoshou"
+        android:icon="@drawable/ic_baseline_shopping_bag_24"/>
 
 
     <item
         android:id="@+id/jinhuo"
-        android:title="@string/jinhuo"/>
+        android:title="@string/jinhuo"
+        android:icon="@drawable/ic_baseline_local_grocery_store_24"/>
+
+    <item
+        android:id="@+id/huiyuan"
+        android:title="会员"
+        android:icon="@drawable/ic_baseline_account_circle_24"/>
 </menu>

@@ -27,7 +27,7 @@ import java.util.List;
 public class AddPurchaseInfoActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Button add;
-    private EditText purId;
+    private TextView purId;
     private List<Info> list = new ArrayList<>();
     private InfoAdapter adapter = new InfoAdapter(list);
 
@@ -40,6 +40,8 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
     void initView() {
         add = findViewById(R.id.add_pur_bt);
         purId = findViewById(R.id.pur_id);
+        //TODO:查询id
+        // 数据库中id号在purid显示
         recyclerView = findViewById(R.id.add_pur_rv);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -71,38 +73,6 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
             adapter.setmList(list);
             dialog.dismiss();
         });
-    }
-
-    void show() {
-        View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_purchase, null, false);
-        final PopupWindow popupWindow = new PopupWindow(v, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        //参数为1.View 2.宽度 3.高度
-        popupWindow.setOutsideTouchable(true);//设置点击外部区域可以取消popupWindow
-        popupWindow.setFocusable(true);
-        backgroundAlpha(0.5f);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                backgroundAlpha(1.0f);
-            }
-        });
-
-
-        EditText nameEt = v.findViewById(R.id.name_et);
-        EditText numEt = v.findViewById(R.id.num_et);
-        Button yes = v.findViewById(R.id.yes_bt);
-
-        String name = nameEt.getText().toString();
-       // int num = Integer.parseInt(numEt.getText().toString());
-
-        yes.setOnClickListener(view -> {
-           // list.add(new Info(name, num));
-            adapter.setmList(list);
-            popupWindow.dismiss();
-        });
-
-        popupWindow.showAtLocation(getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-
     }
     public void backgroundAlpha(float v) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();

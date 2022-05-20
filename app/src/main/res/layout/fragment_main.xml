@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:id="@+id/navigation"
-        app:itemIconSize="30dp"
+        app:itemIconSize="20dp"
         android:background="@color/white"
         app:menu="@menu/navigation_items"
         app:itemIconTint="@color/color_menu_navi"

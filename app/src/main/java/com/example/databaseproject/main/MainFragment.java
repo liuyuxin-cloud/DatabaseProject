@@ -12,6 +12,7 @@ import androidx.paging.LoadState;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.databaseproject.DepositoryFragment;
+import com.example.databaseproject.MemberFragment;
 import com.example.databaseproject.PurchaseFragment;
 import com.example.databaseproject.R;
 import com.example.databaseproject.SaleFragment;
@@ -65,6 +66,8 @@ public class MainFragment extends Fragment {
                 case R.id.jinhuo:
                     viewPager.setCurrentItem(2);
                     break;
+                case R.id.huiyuan:
+                    viewPager.setCurrentItem(3);
             }
             return false;
         });
@@ -76,6 +79,7 @@ public class MainFragment extends Fragment {
         fragmentList.add(new DepositoryFragment());
         fragmentList.add(new SaleFragment());
         fragmentList.add(new PurchaseFragment());
+        fragmentList.add(new MemberFragment());
         viewPager.setAdapter(new MainViewPagerAdapter(getChildFragmentManager(), fragmentList));
     }
 
