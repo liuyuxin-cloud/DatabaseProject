@@ -62,21 +62,28 @@ public abstract class BookStoreDatabase extends RoomDatabase {
     };
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
-        private final DepositoryDao mDao;
+        private final DepositoryDao depositoryDao;
+        private final BookInfoDao bookInfoDao;
         Depository[] depos = {new Depository(1001, "我与地坛", 10),
                                 new Depository(1002, "三体", 20),
                                 new Depository(1003, "世界史", 50)};
+        BookInfo[] books = {new BookInfo(1001, "我与地坛", "人文艺术类", 20.00, "人民艺术出版社", "史铁生"),
+        new BookInfo(1002,"三体", "人文艺术类", 18.00, "人民艺术出版社", "刘慈欣"),
+                new BookInfo(1003, "世界史", "科普类", 15.00, "人民艺术出版社", "wobuzhidao")
+
+        };
         PopulateDbAsync(BookStoreDatabase db) {
-            mDao = db.depositoryDao();
+            depositoryDao = db.depositoryDao();
+            bookInfoDao = db.bookInfoDao();
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
-            mDao.deleteAllRepository();
-
+            depositoryDao.deleteAllRepository();
+            bookInfoDao.deleteAllBookInfo();
             for(int i = 0; i <= depos.length - 1; i++) {
-
-                mDao.insertRepository(depos[i]);
+                depositoryDao.insertRepository(depos[i]);
+                bookInfoDao.insertBookInfo(books[i]);
             }
             return null;
         }

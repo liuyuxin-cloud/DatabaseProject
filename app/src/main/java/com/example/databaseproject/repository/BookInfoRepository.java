@@ -13,15 +13,17 @@ import java.util.List;
 public class BookInfoRepository {
     private BookInfoDao bookInfoDao;
     private LiveData<BookInfo> bookInfo;
+    String name;
 
     public BookInfoRepository(Application application, String name) {
         BookStoreDatabase db = BookStoreDatabase.getDatabase(application);
         bookInfoDao = db.bookInfoDao();
-        bookInfo = bookInfoDao.getBookInfo(name);
+        this.name = name;
+       // bookInfo = bookInfoDao.getBookInfo(id);
     }
 
     public LiveData<BookInfo> getBookInfo() {
-        return bookInfo;
+        return bookInfoDao.getBookInfo(name);
     }
 
 }
