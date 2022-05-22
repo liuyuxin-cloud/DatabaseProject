@@ -20,7 +20,7 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SaleViewHolder
     private final LayoutInflater mInflater;
     private List<SaleList> mLists;
 
-    SaleAdapter(Context context) {
+    public SaleAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
     }
     @NonNull
@@ -40,7 +40,7 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SaleViewHolder
         }
     }
 
-    void setmLists(List<SaleList> lists) {
+    public void setmLists(List<SaleList> lists) {
         mLists = lists;
         notifyDataSetChanged();
     }

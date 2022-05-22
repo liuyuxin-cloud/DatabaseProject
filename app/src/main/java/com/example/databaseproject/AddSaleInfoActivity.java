@@ -1,17 +1,12 @@
 package com.example.databaseproject;
 
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,10 +19,11 @@ import com.example.databaseproject.model.InfoAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddPurchaseInfoActivity extends AppCompatActivity {
+public class AddSaleInfoActivity extends AppCompatActivity {
+
     private RecyclerView recyclerView;
     private Button add;
-    private TextView purId;
+    private TextView purId, info;
     private List<Info> list = new ArrayList<>();
     private InfoAdapter adapter = new InfoAdapter(list);
 
@@ -40,6 +36,8 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
     void initView() {
         add = findViewById(R.id.add_pur_bt);
         purId = findViewById(R.id.pur_id);
+        info = findViewById(R.id.list_info_tv);
+        info.setText("新建销售订单");
         //TODO:查询id
         // 数据库中id号在purid显示
         recyclerView = findViewById(R.id.add_pur_rv);
@@ -65,6 +63,8 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
         EditText nameEt = window.findViewById(R.id.name_et);
         EditText numEt = window.findViewById(R.id.num_et);
         Button yes = window.findViewById(R.id.yes_bt);
+        TextView tv = window.findViewById(R.id.dialog_tv);
+        tv.setText("请输入销售数量:");
 
         yes.setOnClickListener(v -> {
             String name = nameEt.getText().toString();

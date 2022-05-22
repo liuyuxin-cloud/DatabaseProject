@@ -18,9 +18,10 @@ public interface SaleListDao {
     @Insert
     void insertSale(SaleList saleList);
 
-    @Insert
-    void insertSaleInfo(SaleInfo saleInfo);
-
     @Query("DELETE FROM sale_list")
     void deleteSale();
+
+    @Query("SELECT * FROM sale_list")
+    LiveData<List<SaleList>> getAllSale();
+
 }
