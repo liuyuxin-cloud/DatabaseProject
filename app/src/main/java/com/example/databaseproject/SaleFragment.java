@@ -32,9 +32,9 @@ public class SaleFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_purchase,null);
-        button = view.findViewById(R.id.purchase_add);
-        recyclerView = view.findViewById(R.id.pur_rv);
+        View view = inflater.inflate(R.layout.fragment_sale,null);
+        button = view.findViewById(R.id.sale_add);
+        recyclerView = view.findViewById(R.id.sale_rv);
         final SaleAdapter adapter = new SaleAdapter(getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

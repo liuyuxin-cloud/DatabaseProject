@@ -43,7 +43,6 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
                     .setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN |
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-
     }
     void initView() {
         add = findViewById(R.id.add_pur_bt);

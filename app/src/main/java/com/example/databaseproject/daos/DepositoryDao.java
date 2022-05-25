@@ -15,10 +15,13 @@ public interface DepositoryDao {
     @Insert
     void insertRepository(Depository repository);
 
-    @Query("DELETE FROM Depository")
+    @Query("DELETE FROM depository")
     void deleteAllRepository();
 
-    @Query("SELECT * FROM Depository")
+    @Query("SELECT * FROM depository")
     LiveData<List<Depository>> getRepository();
+
+    @Query("SELECT book_num FROM depository WHERE book_name = :name")
+    LiveData<Integer> getBookNum(String name);
 
 }
