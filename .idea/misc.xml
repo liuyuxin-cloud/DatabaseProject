@@ -5,6 +5,8 @@
       <map>
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/activity_add_mem.xml" value="0.25364583333333335" />
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/activity_add_purchase.xml" value="0.4" />
+        <entry key="..\:/DatabaseProject/app/src/main/res/layout/fragment_member.xml" value="0.19067028985507245" />
+        <entry key="..\:/DatabaseProject/app/src/main/res/layout/fragment_purchase.xml" value="0.19067028985507245" />
       </map>
     </option>
   </component>

@@ -9,14 +9,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.databaseproject.entities.BookInfo;
+import com.example.databaseproject.entities.Depository;
+import com.example.databaseproject.entities.SaleList;
 import com.example.databaseproject.model.Info;
 import com.example.databaseproject.model.InfoAdapter;
+import com.example.databaseproject.viewmodel.BookInfoViewModel;
+import com.example.databaseproject.viewmodel.DepositoryViewModel;
+import com.example.databaseproject.viewmodel.SaleListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +34,40 @@ public class AddSaleInfoActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private Button add;
-    private TextView purId, info;
+    private TextView saleId, info;
     private ImageView done;
     private List<Info> list = new ArrayList<>();
     private InfoAdapter adapter = new InfoAdapter(list);
+    private SaleListViewModel viewModel;
+    private List<SaleList> saleList;
+    private List<Depository> depos = new ArrayList<>();
+    private List<BookInfo> books = new ArrayList<>();
+    private DepositoryViewModel depositoryViewModel;
+    private BookInfoViewModel bookInfoViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_add_purchase);
+        viewModel = ViewModelProviders.of(this).get(SaleListViewModel.class);
+        depositoryViewModel = ViewModelProviders.of(this).get(DepositoryViewModel.class);
+        depositoryViewModel.getAllres().observe(this, new Observer<List<Depository>>() {
+            @Override
+            public void onChanged(List<Depository> depositories) {
+                depos.clear();
+                depos.addAll(depositories);
+            }
+        });
+        bookInfoViewModel = ViewModelProviders.of(this).get(BookInfoViewModel.class);
+        bookInfoViewModel.getBookInfos().observe(this, new Observer<List<BookInfo>>() {
+            @Override
+            public void onChanged(List<BookInfo> bookInfos) {
+                books.clear();
+                books.addAll(bookInfos);
+            }
+        });
         initView();
+        getId();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView()
@@ -45,11 +78,9 @@ public class AddSaleInfoActivity extends AppCompatActivity {
     }
     void initView() {
         add = findViewById(R.id.add_pur_bt);
-        purId = findViewById(R.id.pur_id);
+        saleId = findViewById(R.id.pur_id);
         info = findViewById(R.id.list_info_tv);
         info.setText("新建销售订单");
-        //TODO:查询id
-        // 数据库中id号在purid显示
         recyclerView = findViewById(R.id.add_pur_rv);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -58,8 +89,31 @@ public class AddSaleInfoActivity extends AppCompatActivity {
         });
         done = findViewById(R.id.done);
         done.setOnClickListener(v -> {
-            //TODO:查询list中每项单价，根据数量算出总价。
-            //todo:更新仓库中list每项数量。
+            if(list != null) {
+                double total = 0.0;
+                for(Info i : list) {
+                    double price = 0.0;
+                    int num = 0;
+                    for(BookInfo f : books) {
+                        if(i.getName().equals(f.getBookName())){
+                            price = f.getBookPrice();
+                        }
+                    }
+                    for(Depository d : depos) {
+                        if(i.getName().equals(d.getBookName())) {
+                            num = i.getNum();
+                            if(i.getNum() > d.getBookNum()) {
+                                Toast.makeText(this, i.getName() + "数量不够，将所有库存" + num + "本卖出",Toast.LENGTH_SHORT).show();
+                                num = d.getBookNum();
+                            }
+                        }
+                    }
+                    total += price * num;
+                }
+                Toast.makeText(this, "总价为" + total + " 元", Toast.LENGTH_SHORT).show();
+            }
+
+            //todo:更新list仓库中每项数量。
         });
     }
 
@@ -89,5 +143,20 @@ public class AddSaleInfoActivity extends AppCompatActivity {
             adapter.setmList(list);
             dialog.dismiss();
         });
+    }
+
+    public void getId() {
+        int id;
+        saleList = viewModel.getAllres().getValue();
+        if(saleList == null) {
+            id = 1;
+        }else {
+            int count = 0;
+            for(SaleList i : saleList) {
+                count++;
+            }
+            id = count+1;
+        }
+        saleId.setText(id + "");
     }
 }

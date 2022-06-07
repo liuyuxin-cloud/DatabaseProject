@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -46,9 +47,10 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
     private PurchaseListViewModel viewModel;
     private BookInfoViewModel bookInfoViewModel;
     private DepositoryViewModel depositoryViewModel;
-    private List<BookInfo> bookInfos;
+    private List<BookInfo> bookInfos = new ArrayList<>();
     private List<PurchaseList> purchaseLists;
-    private List<Depository> depos;
+    private List<Depository> depos = new ArrayList<>();
+    private ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -63,17 +65,19 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
         }
     }
     void initView() {
+        layout = findViewById(R.id.mem);
+        layout.setVisibility(View.GONE);
         viewModel = ViewModelProviders.of(this).get(PurchaseListViewModel.class);
         bookInfoViewModel = ViewModelProviders.of(this).get(BookInfoViewModel.class);
         depositoryViewModel = ViewModelProviders.of(this).get(DepositoryViewModel.class);
-        bookInfoViewModel.getBookInfos().observe((LifecycleOwner) getLifecycle(), new Observer<List<BookInfo>>() {
+        bookInfoViewModel.getBookInfos().observe(this, new Observer<List<BookInfo>>() {
             @Override
             public void onChanged(List<BookInfo> bookInfs) {
                 bookInfos.clear();
                 bookInfos.addAll(bookInfs);
             }
         });
-        depositoryViewModel.getAllres().observe((LifecycleOwner) getLifecycle(), new Observer<List<Depository>>() {
+        depositoryViewModel.getAllres().observe(this, new Observer<List<Depository>>() {
             @Override
             public void onChanged(List<Depository> depositories) {
                 depos.clear();
@@ -99,15 +103,13 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
                     for(BookInfo f : bookInfos) {
                         if(i.getName().equals(f.getBookName())){
                             price = f.getBookPrice();
+                            break;
                         }
                     }
                     for(Depository d : depos) {
-                        if(i.getName().equals(d.getBookName())) {
+                        if (i.getName().equals(d.getBookName())) {
                             num = i.getNum();
-                            if(i.getNum() > d.getBookNum()) {
-                                Toast.makeText(this, i.getName() + "数量不够，将所有库存" + num + "本卖出",Toast.LENGTH_SHORT).show();
-                                num = d.getBookNum();
-                            }
+                            break;
                         }
                     }
                     total += price * num;
