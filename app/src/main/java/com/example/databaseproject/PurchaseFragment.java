@@ -27,8 +27,8 @@ import java.util.List;
 
 public class PurchaseFragment extends Fragment {
     private RecyclerView recyclerView;
-    private PurchaseListViewModel viewModel;
     private FloatingActionButton button;
+    private PurchaseListViewModel viewModel;
 
     @Nullable
     @Override

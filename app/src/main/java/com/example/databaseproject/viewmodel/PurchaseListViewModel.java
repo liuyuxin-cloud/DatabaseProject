@@ -27,7 +27,6 @@ public class PurchaseListViewModel extends AndroidViewModel {
         repository = new PurchaseListRepository(application);
         allres = repository.getPurchaseList();
     }
-
     public void insert(PurchaseList purchaseList) {
         repository.insert(purchaseList);
     }

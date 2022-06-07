@@ -23,4 +23,6 @@ public interface PurchaseListDao {
     @Query("SELECT * FROM purchase_list")
     LiveData<List<PurchaseList>> getAllPurchase();
 
+    @Query("SELECT purchase_id FROM purchase_list ORDER BY purchase_id")
+    LiveData<Integer> getId();
 }

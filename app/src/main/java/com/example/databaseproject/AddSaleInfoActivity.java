@@ -7,6 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -25,6 +26,7 @@ public class AddSaleInfoActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private Button add;
     private TextView purId, info;
+    private ImageView done;
     private List<Info> list = new ArrayList<>();
     private InfoAdapter adapter = new InfoAdapter(list);
 
@@ -54,9 +56,12 @@ public class AddSaleInfoActivity extends AppCompatActivity {
         add.setOnClickListener(v -> {
             showDialog();
         });
+        done = findViewById(R.id.done);
+        done.setOnClickListener(v -> {
+            //TODO:查询list中每项单价，根据数量算出总价。
+            //todo:更新仓库中list每项数量。
+        });
     }
-
-
 
     void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -79,6 +84,7 @@ public class AddSaleInfoActivity extends AppCompatActivity {
         yes.setOnClickListener(v -> {
             String name = nameEt.getText().toString();
             int num = Integer.parseInt(numEt.getText().toString());
+            //TODO:根据名字查询库中数量进行比较，最多将库中所有书卖出
             list.add(new Info(name, num));
             adapter.setmList(list);
             dialog.dismiss();

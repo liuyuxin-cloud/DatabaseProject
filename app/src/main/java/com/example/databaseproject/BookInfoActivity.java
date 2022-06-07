@@ -7,23 +7,44 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.databaseproject.entities.BookInfo;
 import com.example.databaseproject.repository.BookInfoRepository;
+import com.example.databaseproject.viewmodel.BookInfoViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookInfoActivity extends AppCompatActivity {
     private TextView id, name, press, auth, price, type;
-    private LiveData<BookInfo> bookInfo;
-    private BookInfoRepository repository;
+    private LiveData<BookInfo> bookInfos;
+    private BookInfo bookInfo;
+    private BookInfoViewModel viewModel;
+    private List<BookInfo> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_bookinfo);
         String bookName = getIntent().getStringExtra("name");
-        repository = new BookInfoRepository(getApplication());
-        bookInfo = repository.getBookInfo(bookName);
-        initView();
+        viewModel = ViewModelProviders.of(this).get(BookInfoViewModel.class);
+        viewModel.getBookInfos().observe(this, new Observer<List<BookInfo>>() {
+            @Override
+            public void onChanged(List<BookInfo> bookInfos) {
+                list.clear();
+                list.addAll(bookInfos);
+                if(list != null) {
+                    for(BookInfo i : list) {
+                        if(i.getBookName().equals(bookName)){
+                            bookInfo = i;
+                        }
+                    }
+                }
+                initView();
+            }
+        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView()
@@ -39,13 +60,13 @@ public class BookInfoActivity extends AppCompatActivity {
         price = findViewById(R.id.info_price);
         type = findViewById(R.id.info_type);
         auth = findViewById(R.id.info_auth);
-        if(bookInfo.getValue() != null) {
-            auth.setText(bookInfo.getValue().getBookAuth());
-            id.setText(bookInfo.getValue().getBookId() + "");
-            name.setText(bookInfo.getValue().getBookName());
-            press.setText(bookInfo.getValue().getBookPress());
-            price.setText(bookInfo.getValue().getBookPrice() + "");
-            type.setText(bookInfo.getValue().getBookType());
+        if(bookInfo != null) {
+            auth.setText(bookInfo.getBookAuth());
+            id.setText(bookInfo.getBookId() + "");
+            name.setText(bookInfo.getBookName());
+            press.setText(bookInfo.getBookPress());
+            price.setText(bookInfo.getBookPrice() + "");
+            type.setText(bookInfo.getBookType());
         }
     }
 }

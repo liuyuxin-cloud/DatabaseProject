@@ -9,14 +9,22 @@ import androidx.lifecycle.LiveData;
 import com.example.databaseproject.entities.BookInfo;
 import com.example.databaseproject.repository.BookInfoRepository;
 
+import java.util.List;
+
 public class BookInfoViewModel extends AndroidViewModel {
     BookInfoRepository repository;
 
     LiveData<BookInfo> bookInfo;
+    LiveData<List<BookInfo>> bookInfos;
 
     public BookInfoViewModel(@NonNull Application application) {
         super(application);
         repository = new BookInfoRepository(application);
+        bookInfos = repository.getBookInfos();
+    }
+
+    public LiveData<List<BookInfo>> getBookInfos() {
+        return bookInfos;
     }
     public LiveData<BookInfo> getBookInfo(String name) {
         return repository.getBookInfo(name);
