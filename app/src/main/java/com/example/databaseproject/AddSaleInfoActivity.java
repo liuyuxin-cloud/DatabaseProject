@@ -96,7 +96,7 @@ public class AddSaleInfoActivity extends AppCompatActivity {
                     int num = 0;
                     for(BookInfo f : books) {
                         if(i.getName().equals(f.getBookName())){
-                            price = f.getBookPrice();
+                            price = f.getBookOutPrice();
                         }
                     }
                     for(Depository d : depos) {

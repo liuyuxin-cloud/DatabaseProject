@@ -18,10 +18,9 @@ public class PurchaseInfoRepository {
 
     private LiveData<PurchaseInfo> purchaseInfo;
 
-    public PurchaseInfoRepository(Application application, int id) {
+    public PurchaseInfoRepository(Application application) {
         BookStoreDatabase db = BookStoreDatabase.getDatabase(application);
         purchaseInfoDao = db.purchaseInfoDao();
-        purchaseInfo = purchaseInfoDao.getPurchaseInfo(id);
     }
 
     public void insert(PurchaseInfo pur) {

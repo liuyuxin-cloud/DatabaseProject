@@ -14,12 +14,13 @@ import com.example.databaseproject.entities.Depository;
 import com.example.databaseproject.entities.PurchaseList;
 import com.example.databaseproject.entities.SaleList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.PurchaseViewHolder> {
 
     private final LayoutInflater mInflater;
-    private List<PurchaseList> mLists;
+    private List<PurchaseList> mLists = new ArrayList<>();
 
     public PurchaseAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
@@ -27,7 +28,7 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.Purcha
     @NonNull
     @Override
     public PurchaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = mInflater.inflate(R.layout.depo_item, parent, false);
+        View v = mInflater.inflate(R.layout.sale_purchase_item, parent, false);
         return new PurchaseViewHolder(v);
     }
 

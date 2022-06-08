@@ -14,19 +14,23 @@ public class BookInfo {
     private String bookName;
     @ColumnInfo(name = "book_type")
     private String bookType;
-    @ColumnInfo(name = "book_price")
-    private double bookPrice;
+
+    @ColumnInfo(name = "book_inprice")
+    private double bookInPrice;
+    @ColumnInfo(name = "book_outprice")
+    private double bookOutPrice;
     @ColumnInfo(name = "book_press")
     private String bookPress;
     @ColumnInfo(name = "book_auth")
     private String bookAuth;
 
-    public BookInfo(int bookId, String bookName, String bookType, double bookPrice, String bookPress, String bookAuth) {
+    public BookInfo(int bookId, String bookName, String bookType, double bookInPrice, double bookOutPrice, String bookPress, String bookAuth) {
         this.bookId = bookId;
         this.bookAuth = bookAuth;
         this.bookName = bookName;
         this.bookType = bookType;
-        this.bookPrice = bookPrice;
+        this.bookInPrice = bookInPrice;
+        this.bookOutPrice = bookOutPrice;
         this.bookPress = bookPress;
     }
 
@@ -54,14 +58,6 @@ public class BookInfo {
         this.bookType = bookType;
     }
 
-    public double getBookPrice() {
-        return bookPrice;
-    }
-
-    public void setBookPrice(double bookPrice) {
-        this.bookPrice = bookPrice;
-    }
-
     public String getBookPress() {
         return bookPress;
     }
@@ -78,4 +74,19 @@ public class BookInfo {
         this.bookAuth = bookAuth;
     }
 
+    public double getBookInPrice() {
+        return bookInPrice;
+    }
+
+    public void setBookInPrice(double bookInPrice) {
+        this.bookInPrice = bookInPrice;
+    }
+
+    public double getBookOutPrice() {
+        return bookOutPrice;
+    }
+
+    public void setBookOutPrice(double bookOutPrice) {
+        this.bookOutPrice = bookOutPrice;
+    }
 }

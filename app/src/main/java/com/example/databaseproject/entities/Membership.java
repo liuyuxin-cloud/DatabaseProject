@@ -17,12 +17,15 @@ public class Membership {
     private String registerTime;
     @ColumnInfo(name = "total_consumption")
     private double totalConsumption;
+    @ColumnInfo(name = "level")
+    private String level;
 
-    public Membership(int memberId, String memberName, String registerTime, double totalConsumption) {
+    public Membership(int memberId, String memberName, String registerTime, double totalConsumption, String level) {
         this.memberId = memberId;
         this.memberName = memberName;
         this.registerTime = registerTime;
         this.totalConsumption = totalConsumption;
+        this.level = level;
     }
 
     public int getMemberId() {
@@ -55,5 +58,13 @@ public class Membership {
 
     public void setTotalConsumption(double totalConsumption) {
         this.totalConsumption = totalConsumption;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

@@ -25,7 +25,7 @@ import com.example.databaseproject.entities.SaleInfo;
 import com.example.databaseproject.entities.SaleList;
 
 @Database(entities = {BookInfo.class, Membership.class, PurchaseInfo.class, PurchaseList.class,
-        Depository.class, SaleList.class, SaleInfo.class}, version = 2, exportSchema = false)
+        Depository.class, SaleList.class, SaleInfo.class}, version = 4, exportSchema = false)
 public abstract class BookStoreDatabase extends RoomDatabase {
 
     public abstract BookInfoDao bookInfoDao();
@@ -64,23 +64,32 @@ public abstract class BookStoreDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
         private final DepositoryDao depositoryDao;
         private final BookInfoDao bookInfoDao;
+        private final MemberDao memberDao;
+        private final PurchaseListDao purchaseListDao;
+        private final PurchaseInfoDao purchaseInfoDao;
         Depository[] depos = {new Depository(1001, "我与地坛", 10),
                                 new Depository(1002, "三体", 20),
                                 new Depository(1003, "世界史", 50)};
-        BookInfo[] books = {new BookInfo(1001, "我与地坛", "人文艺术类", 20.00, "人民艺术出版社", "史铁生"),
-        new BookInfo(1002,"三体", "人文艺术类", 18.00, "人民艺术出版社", "刘慈欣"),
-                new BookInfo(1003, "世界史", "科普类", 15.00, "人民艺术出版社", "wobuzhidao")
+        BookInfo[] books = {new BookInfo(1001, "我与地坛", "人文艺术类", 20.00, 25.00, "人民艺术出版社", "史铁生"),
+        new BookInfo(1002,"三体", "人文艺术类", 18.00, 26.00, "人民艺术出版社", "刘慈欣"),
+                new BookInfo(1003, "世界史", "科普类", 15.00, 25.00,"人民艺术出版社", "wobuzhidao")
 
         };
         PopulateDbAsync(BookStoreDatabase db) {
             depositoryDao = db.depositoryDao();
             bookInfoDao = db.bookInfoDao();
+            memberDao = db.memberDao();
+            purchaseListDao = db.purchaseListDao();
+            purchaseInfoDao = db.purchaseInfoDao();
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
             depositoryDao.deleteAllRepository();
             bookInfoDao.deleteAllBookInfo();
+            memberDao.deleteAllMember();
+            purchaseListDao.deleteAllPurchase();
+            purchaseInfoDao.deletePurchaseInfo();
             for(int i = 0; i <= depos.length - 1; i++) {
                 depositoryDao.insertRepository(depos[i]);
                 bookInfoDao.insertBookInfo(books[i]);

@@ -1,5 +1,6 @@
 package com.example.databaseproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,17 +18,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.databaseproject.entities.Depository;
 import com.example.databaseproject.model.DepoAdapter;
 import com.example.databaseproject.viewmodel.DepositoryViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 public class DepositoryFragment extends Fragment {
     private RecyclerView recyclerView;
     private DepositoryViewModel viewModel;
+    private FloatingActionButton button;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_depository,null);
+        button = view.findViewById(R.id.add_depo);
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), AddDepoActivity.class);
+            startActivity(intent);
+        });
         recyclerView = view.findViewById(R.id.depo_rv);
         final DepoAdapter adapter = new DepoAdapter(getContext());
         recyclerView.setAdapter(adapter);

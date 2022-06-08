@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=
-    "http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal" android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="30dp">
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/list_id"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
         android:text="1001"
         android:textColor="#64BEBC"
         android:textSize="18sp"
-        android:layout_marginStart="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,20 +22,23 @@
         android:id="@+id/total_price"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginEnd="55dp"
         android:text="100￥"
         android:textSize="18sp"
-        android:layout_marginStart="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/list_time"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/list_id"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/list_time"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:textSize="18sp"
-        android:text="2022.1.1 18:00:00"
         android:layout_marginEnd="10dp"
+        android:text="2022.1.1 18:00:00"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

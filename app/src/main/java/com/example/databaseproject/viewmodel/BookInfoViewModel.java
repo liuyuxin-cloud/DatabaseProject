@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.databaseproject.entities.BookInfo;
+import com.example.databaseproject.entities.Depository;
 import com.example.databaseproject.repository.BookInfoRepository;
 
 import java.util.List;
@@ -22,6 +23,10 @@ public class BookInfoViewModel extends AndroidViewModel {
         repository = new BookInfoRepository(application);
         bookInfos = repository.getBookInfos();
     }
+    public void insert(BookInfo repo) {
+        repository.insert(repo);
+    }
+
 
     public LiveData<List<BookInfo>> getBookInfos() {
         return bookInfos;

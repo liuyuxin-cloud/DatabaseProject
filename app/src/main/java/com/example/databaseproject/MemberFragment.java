@@ -28,12 +28,17 @@ import com.example.databaseproject.viewmodel.DepositoryViewModel;
 import com.example.databaseproject.viewmodel.MemberViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MemberFragment extends Fragment {
     private RecyclerView recyclerView;
     private MemberViewModel viewModel;
     private FloatingActionButton button;
+    private List<Membership> mems = new ArrayList<>();
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_member, null);
@@ -45,12 +50,16 @@ public class MemberFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(MemberViewModel.class);
         viewModel.getAllres().observe(getViewLifecycleOwner(), new Observer<List<Membership>>() {
             @Override
-            public void onChanged(List<Membership> mems) {
-                adapter.setmList(mems);
+            public void onChanged(List<Membership> mem) {
+                if(mem != null){
+                    adapter.setmList(mem);
+                    mems.clear();
+                    mems.addAll(mem);
+                }
             }
         });
         button.setOnClickListener(v->{
-
+            showDialog();
         });
         return view;
     }
@@ -58,7 +67,7 @@ public class MemberFragment extends Fragment {
     void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         AlertDialog dialog = builder.create();
-        builder.setView(View.inflate(getContext(), R.layout.dialog_purchase, null));
+        builder.setView(View.inflate(getContext(), R.layout.dialog_mem, null));
         dialog.show();
         dialog.getWindow().clearFlags(
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -66,17 +75,29 @@ public class MemberFragment extends Fragment {
         dialog.getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         Window window = dialog.getWindow();
-        window.setContentView(R.layout.dialog_purchase);
-        EditText nameEt = window.findViewById(R.id.name_et);
-        EditText numEt = window.findViewById(R.id.num_et);
-        Button yes = window.findViewById(R.id.yes_bt);
-        TextView tv = window.findViewById(R.id.dialog_tv);
-        tv.setText("请输入销售数量:");
+        window.setContentView(R.layout.dialog_mem);
+        TextView idTv = window.findViewById(R.id.dialog_mem_id);
+        EditText nameEt = window.findViewById(R.id.dialog_mem_name);
+        Button yes = window.findViewById(R.id.mem_yes_bt);
+        int id = 0;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        String d = formatter.format(date);
+        if(mems != null) {
+            for(Membership i : mems){
+                id++;
+            }
+            id++;
+        }else {
+            id = 1;
+        }
 
+        int finalId = id;
+        idTv.setText(id + "");
         yes.setOnClickListener(v -> {
             String name = nameEt.getText().toString();
-            int num = Integer.parseInt(numEt.getText().toString());
-
+            Membership membership = new Membership(finalId, name, d, 0.0, "青铜");
+            viewModel.insert(membership);
             dialog.dismiss();
         });
     }

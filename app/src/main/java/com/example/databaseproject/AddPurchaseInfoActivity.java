@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.databaseproject.entities.BookInfo;
 import com.example.databaseproject.entities.Depository;
+import com.example.databaseproject.entities.PurchaseInfo;
 import com.example.databaseproject.entities.PurchaseList;
 import com.example.databaseproject.model.Info;
 import com.example.databaseproject.model.InfoAdapter;
@@ -34,7 +35,9 @@ import com.example.databaseproject.viewmodel.BookInfoViewModel;
 import com.example.databaseproject.viewmodel.DepositoryViewModel;
 import com.example.databaseproject.viewmodel.PurchaseListViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AddPurchaseInfoActivity extends AppCompatActivity {
@@ -48,7 +51,7 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
     private BookInfoViewModel bookInfoViewModel;
     private DepositoryViewModel depositoryViewModel;
     private List<BookInfo> bookInfos = new ArrayList<>();
-    private List<PurchaseList> purchaseLists;
+    private List<PurchaseList> purchaseLists = new ArrayList<>();
     private List<Depository> depos = new ArrayList<>();
     private ConstraintLayout layout;
 
@@ -86,6 +89,7 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
         });
         add = findViewById(R.id.add_pur_bt);
         purId = findViewById(R.id.pur_id);
+        purId.setText(getId() + "");
         recyclerView = findViewById(R.id.add_pur_rv);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -102,7 +106,7 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
                     int num = 0;
                     for(BookInfo f : bookInfos) {
                         if(i.getName().equals(f.getBookName())){
-                            price = f.getBookPrice();
+                            price = f.getBookInPrice();
                             break;
                         }
                     }
@@ -115,6 +119,24 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
                     total += price * num;
                 }
                 Toast.makeText(this, "总价为" + total + " 元", Toast.LENGTH_SHORT).show();
+                int listId = getId();
+                for(Info i:list) {
+                    int id = 0;
+                    double price = 0.0;
+                    for(BookInfo f : bookInfos) {
+                        if(i.getName().equals(f.getBookName())){
+                            id = f.getBookId();
+                            price = f.getBookInPrice();
+                            break;
+                        }
+                    }
+                    viewModel.insertInfo(new PurchaseInfo(listId, id, price, i.getNum()));
+                }
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+                Date date = new Date(System.currentTimeMillis());
+                String d = formatter.format(date);
+                viewModel.insertList(new PurchaseList(listId,total,d));
+                finish();
             }
 
             //todo:更新list仓库中每项数量。
@@ -147,9 +169,15 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
         });
     }
 
-    public void getId() {
+    public int getId() {
         int id;
-        purchaseLists = viewModel.getAllres().getValue();
+        viewModel.getAllres().observe(this, new Observer<List<PurchaseList>>() {
+            @Override
+            public void onChanged(List<PurchaseList> purchaseList) {
+                purchaseLists.clear();
+                purchaseLists.addAll(purchaseList);
+            }
+        });
         if(purchaseLists == null) {
             id = 1;
         }else {
@@ -159,6 +187,6 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
             }
             id = count+1;
         }
-        purId.setText(id + "");
+        return id;
     }
 }

@@ -40,7 +40,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="5dp"
             android:text="会员号"
             android:textColor="@color/teal_700"
             android:textSize="20sp"
@@ -60,7 +60,7 @@
             app:layout_constraintHorizontal_bias="0.42"
             app:layout_constraintStart_toEndOf="@+id/textView"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.461" />
+            app:layout_constraintVertical_bias="0.5" />
 
         <TextView
             android:id="@+id/textView1"
