@@ -15,8 +15,7 @@ import java.util.List;
 
 public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberHolder> {
 
-    public MemberAdapter(List<Membership> mList) {
-        this.mList = mList;
+    public MemberAdapter() {
     }
 
     public List<Membership> getmList() {
