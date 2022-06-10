@@ -65,6 +65,8 @@ public abstract class BookStoreDatabase extends RoomDatabase {
         private final DepositoryDao depositoryDao;
         private final BookInfoDao bookInfoDao;
         private final MemberDao memberDao;
+        private final SaleInfoDao saleInfoDao;
+        private final SaleListDao saleListDao;
         private final PurchaseListDao purchaseListDao;
         private final PurchaseInfoDao purchaseInfoDao;
         Depository[] depos = {new Depository(1001, "我与地坛", 10),
@@ -81,6 +83,8 @@ public abstract class BookStoreDatabase extends RoomDatabase {
             memberDao = db.memberDao();
             purchaseListDao = db.purchaseListDao();
             purchaseInfoDao = db.purchaseInfoDao();
+            saleInfoDao = db.saleInfoDao();
+            saleListDao = db.saleListDao();
         }
 
         @Override

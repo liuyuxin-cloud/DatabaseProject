@@ -20,21 +20,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.databaseproject.entities.BookInfo;
 import com.example.databaseproject.entities.Depository;
+import com.example.databaseproject.entities.PurchaseInfo;
+import com.example.databaseproject.entities.PurchaseList;
+import com.example.databaseproject.entities.SaleInfo;
 import com.example.databaseproject.entities.SaleList;
 import com.example.databaseproject.model.Info;
 import com.example.databaseproject.model.InfoAdapter;
 import com.example.databaseproject.viewmodel.BookInfoViewModel;
 import com.example.databaseproject.viewmodel.DepositoryViewModel;
+import com.example.databaseproject.viewmodel.SaleInfoViewModel;
 import com.example.databaseproject.viewmodel.SaleListViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AddSaleInfoActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private Button add;
-    private TextView saleId, info;
+    private TextView saleId, info, vipId;
     private ImageView done;
     private List<Info> list = new ArrayList<>();
     private InfoAdapter adapter = new InfoAdapter(list);
@@ -44,6 +50,8 @@ public class AddSaleInfoActivity extends AppCompatActivity {
     private List<BookInfo> books = new ArrayList<>();
     private DepositoryViewModel depositoryViewModel;
     private BookInfoViewModel bookInfoViewModel;
+    private SaleListViewModel saleListViewModel;
+    private SaleInfoViewModel saleInfoViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -66,6 +74,8 @@ public class AddSaleInfoActivity extends AppCompatActivity {
                 books.addAll(bookInfos);
             }
         });
+        saleInfoViewModel = ViewModelProviders.of(this).get(SaleInfoViewModel.class);
+        saleListViewModel = ViewModelProviders.of(this).get(SaleListViewModel.class);
         initView();
         getId();
 
@@ -81,9 +91,11 @@ public class AddSaleInfoActivity extends AppCompatActivity {
         saleId = findViewById(R.id.pur_id);
         info = findViewById(R.id.list_info_tv);
         info.setText("新建销售订单");
+        vipId = findViewById(R.id.mem_pur_id);
         recyclerView = findViewById(R.id.add_pur_rv);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        saleId.setText(getId() + "");
         add.setOnClickListener(v -> {
             showDialog();
         });
@@ -91,9 +103,9 @@ public class AddSaleInfoActivity extends AppCompatActivity {
         done.setOnClickListener(v -> {
             if(list != null) {
                 double total = 0.0;
+                int num = 0;
                 for(Info i : list) {
                     double price = 0.0;
-                    int num = 0;
                     for(BookInfo f : books) {
                         if(i.getName().equals(f.getBookName())){
                             price = f.getBookOutPrice();
@@ -111,6 +123,25 @@ public class AddSaleInfoActivity extends AppCompatActivity {
                     total += price * num;
                 }
                 Toast.makeText(this, "总价为" + total + " 元", Toast.LENGTH_SHORT).show();
+                int listId = getId();
+                for(Info i:list) {
+                    int id = 0;
+                    double price = 0.0;
+                    for(BookInfo f : books) {
+                        if(i.getName().equals(f.getBookName())){
+                            id = f.getBookId();
+                            price = f.getBookInPrice();
+                            break;
+                        }
+                    }
+                    saleInfoViewModel.insert(new SaleInfo(listId, id, price, num));
+                }
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+                Date date = new Date(System.currentTimeMillis());
+                String d = formatter.format(date);
+                int vid = Integer.parseInt(vipId.getText().toString());
+                saleListViewModel.insert(new SaleList(getId(), total, d, vid));
+                finish();
             }
 
             //todo:更新list仓库中每项数量。
@@ -145,7 +176,7 @@ public class AddSaleInfoActivity extends AppCompatActivity {
         });
     }
 
-    public void getId() {
+    public int getId() {
         int id;
         saleList = viewModel.getAllres().getValue();
         if(saleList == null) {
@@ -157,6 +188,6 @@ public class AddSaleInfoActivity extends AppCompatActivity {
             }
             id = count+1;
         }
-        saleId.setText(id + "");
+        return id;
     }
 }

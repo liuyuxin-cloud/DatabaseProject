@@ -7,6 +7,7 @@
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/activity_add_mem.xml" value="0.25364583333333335" />
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/activity_add_purchase.xml" value="0.4" />
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/activity_bookinfo.xml" value="0.19067028985507245" />
+        <entry key="..\:/DatabaseProject/app/src/main/res/layout/depo_item.xml" value="0.264" />
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/dialog_depo.xml" value="0.19067028985507245" />
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/dialog_mem.xml" value="0.72" />
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/dialog_purchase.xml" value="0.19067028985507245" />
@@ -14,6 +15,8 @@
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/fragment_member.xml" value="0.4" />
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/fragment_purchase.xml" value="0.19067028985507245" />
         <entry key="..\:/DatabaseProject/app/src/main/res/layout/item_member.xml" value="0.6" />
+        <entry key="..\:/DatabaseProject/app/src/main/res/layout/item_purchase_info.xml" value="0.4" />
+        <entry key="..\:/DatabaseProject/app/src/main/res/layout/sale_purchase_item.xml" value="0.19067028985507245" />
       </map>
     </option>
   </component>

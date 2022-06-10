@@ -110,12 +110,7 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
                             break;
                         }
                     }
-                    for(Depository d : depos) {
-                        if (i.getName().equals(d.getBookName())) {
-                            num = i.getNum();
-                            break;
-                        }
-                    }
+                    num = i.getNum();
                     total += price * num;
                 }
                 Toast.makeText(this, "总价为" + total + " 元", Toast.LENGTH_SHORT).show();
