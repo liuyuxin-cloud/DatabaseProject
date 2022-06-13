@@ -101,22 +101,10 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
         done.setOnClickListener(v -> {
             if(list != null) {
                 double total = 0.0;
-                for(Info i : list) {
-                    double price = 0.0;
-                    int num = 0;
-                    for(BookInfo f : bookInfos) {
-                        if(i.getName().equals(f.getBookName())){
-                            price = f.getBookInPrice();
-                            break;
-                        }
-                    }
-                    num = i.getNum();
-                    total += price * num;
-                }
-                Toast.makeText(this, "总价为" + total + " 元", Toast.LENGTH_SHORT).show();
                 int listId = getId();
                 for(Info i:list) {
                     int id = 0;
+                    int num = 0;
                     double price = 0.0;
                     for(BookInfo f : bookInfos) {
                         if(i.getName().equals(f.getBookName())){
@@ -125,8 +113,16 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
                             break;
                         }
                     }
+                    for(Depository d : depos) {
+                        if(i.getName().equals(d.getBookName())) {
+                            num = d.getBookNum();
+                        }
+                    }
+                    total += price * i.getNum();
                     viewModel.insertInfo(new PurchaseInfo(listId, id, price, i.getNum()));
+                    depositoryViewModel.update(new Depository(id, i.getName(), num + i.getNum()));
                 }
+                Toast.makeText(this, "总价为" + total + " 元", Toast.LENGTH_SHORT).show();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
                 Date date = new Date(System.currentTimeMillis());
                 String d = formatter.format(date);
@@ -176,11 +172,7 @@ public class AddPurchaseInfoActivity extends AppCompatActivity {
         if(purchaseLists == null) {
             id = 1;
         }else {
-            int count = 0;
-            for(PurchaseList i : purchaseLists) {
-                count++;
-            }
-            id = count+1;
+            id = purchaseLists.size()+1;
         }
         return id;
     }

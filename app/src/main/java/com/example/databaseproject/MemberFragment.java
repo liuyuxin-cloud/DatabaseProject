@@ -52,9 +52,9 @@ public class MemberFragment extends Fragment {
             @Override
             public void onChanged(List<Membership> mem) {
                 if(mem != null){
-                    adapter.setmList(mem);
                     mems.clear();
                     mems.addAll(mem);
+                    adapter.setmList(mem);
                 }
             }
         });
@@ -84,10 +84,7 @@ public class MemberFragment extends Fragment {
         Date date = new Date(System.currentTimeMillis());
         String d = formatter.format(date);
         if(mems != null) {
-            for(Membership i : mems){
-                id++;
-            }
-            id++;
+            id = mems.size() + 1;
         }else {
             id = 1;
         }

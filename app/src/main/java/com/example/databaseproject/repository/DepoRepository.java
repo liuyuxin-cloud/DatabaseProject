@@ -30,6 +30,10 @@ public class DepoRepository {
         new insertAsyncTask(repositoryDao).execute(repository);
     }
 
+    public void update(Depository depository) {
+        new updateAsyncTask(repositoryDao).execute(depository);
+    }
+
     private static class insertAsyncTask extends AsyncTask<Depository, Void, Void> {
         private DepositoryDao mAsyncTaskDao;
 
@@ -40,6 +44,20 @@ public class DepoRepository {
         @Override
         protected Void doInBackground(final Depository... params) {
             mAsyncTaskDao.insertRepository(params[0]);
+            return null;
+        }
+    }
+
+    private static class updateAsyncTask extends AsyncTask<Depository, Void, Void> {
+        private DepositoryDao mAsyncTaskDao;
+
+        updateAsyncTask(DepositoryDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Depository... params) {
+            mAsyncTaskDao.updateDepo(params[0]);
             return null;
         }
     }

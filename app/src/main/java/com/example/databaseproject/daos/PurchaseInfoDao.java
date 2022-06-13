@@ -13,8 +13,8 @@ import java.util.List;
 @Dao
 public interface PurchaseInfoDao {
 
-    @Query("SELECT * FROM purchase_info WHERE purchase_id = :id")
-    LiveData<PurchaseInfo> getPurchaseInfo(int id);
+    @Query("SELECT * FROM purchase_info")
+    LiveData<List<PurchaseInfo>> getPurchaseInfo();
 
     @Insert
     void insertPurchaseInfo(PurchaseInfo purchaseInfo);

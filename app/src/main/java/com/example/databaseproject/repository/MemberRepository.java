@@ -28,6 +28,10 @@ public class MemberRepository {
         new MemberRepository.insertAsyncTask(memberDao).execute(mem);
     }
 
+    public void update(Membership mem) {
+        new MemberRepository.updateAsyncTask(memberDao).execute(mem);
+    }
+
     private static class insertAsyncTask extends AsyncTask<Membership, Void, Void> {
         private MemberDao mAsyncTaskDao;
 
@@ -38,6 +42,20 @@ public class MemberRepository {
         @Override
         protected Void doInBackground(final Membership... params) {
             mAsyncTaskDao.insertMember(params[0]);
+            return null;
+        }
+    }
+
+    private static class updateAsyncTask extends AsyncTask<Membership, Void, Void> {
+        private MemberDao mAsyncTaskDao;
+
+        updateAsyncTask(MemberDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final Membership... params) {
+            mAsyncTaskDao.updateMember(params[0]);
             return null;
         }
     }

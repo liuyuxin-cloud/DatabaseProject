@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/repo_id"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="match_parent"
         android:text="1001"
         android:textColor="#64BEBC"
@@ -24,8 +24,11 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="我与地坛"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:maxLength="11"
         android:textSize="18sp"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/repo_id"
         app:layout_constraintTop_toTopOf="parent" />

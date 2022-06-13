@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.databaseproject.entities.BookInfo;
 import com.example.databaseproject.entities.Depository;
+import com.example.databaseproject.entities.Membership;
 import com.example.databaseproject.entities.PurchaseInfo;
 import com.example.databaseproject.entities.PurchaseList;
 import com.example.databaseproject.entities.SaleInfo;
@@ -28,6 +29,7 @@ import com.example.databaseproject.model.Info;
 import com.example.databaseproject.model.InfoAdapter;
 import com.example.databaseproject.viewmodel.BookInfoViewModel;
 import com.example.databaseproject.viewmodel.DepositoryViewModel;
+import com.example.databaseproject.viewmodel.MemberViewModel;
 import com.example.databaseproject.viewmodel.SaleInfoViewModel;
 import com.example.databaseproject.viewmodel.SaleListViewModel;
 
@@ -45,13 +47,15 @@ public class AddSaleInfoActivity extends AppCompatActivity {
     private List<Info> list = new ArrayList<>();
     private InfoAdapter adapter = new InfoAdapter(list);
     private SaleListViewModel viewModel;
-    private List<SaleList> saleList;
+    private List<SaleList> saleList = new ArrayList<>();
     private List<Depository> depos = new ArrayList<>();
     private List<BookInfo> books = new ArrayList<>();
+    private List<Membership> mems = new ArrayList<>();
     private DepositoryViewModel depositoryViewModel;
     private BookInfoViewModel bookInfoViewModel;
     private SaleListViewModel saleListViewModel;
     private SaleInfoViewModel saleInfoViewModel;
+    private MemberViewModel memberViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -76,6 +80,17 @@ public class AddSaleInfoActivity extends AppCompatActivity {
         });
         saleInfoViewModel = ViewModelProviders.of(this).get(SaleInfoViewModel.class);
         saleListViewModel = ViewModelProviders.of(this).get(SaleListViewModel.class);
+
+        memberViewModel = ViewModelProviders.of(this).get(MemberViewModel.class);
+        memberViewModel.getAllres().observe(this, new Observer<List<Membership>>() {
+            @Override
+            public void onChanged(List<Membership> memberships) {
+                if(memberships != null) {
+                    mems.clear();
+                    mems.addAll(memberships);
+                }
+            }
+        });
         initView();
         getId();
 
@@ -104,47 +119,62 @@ public class AddSaleInfoActivity extends AppCompatActivity {
             if(list != null) {
                 double total = 0.0;
                 int num = 0;
+                int preNum = 0;
                 for(Info i : list) {
                     double price = 0.0;
+                    int id = 0;
                     for(BookInfo f : books) {
                         if(i.getName().equals(f.getBookName())){
                             price = f.getBookOutPrice();
+                            id = f.getBookId();
                         }
                     }
                     for(Depository d : depos) {
                         if(i.getName().equals(d.getBookName())) {
                             num = i.getNum();
+                            preNum = d.getBookNum();
                             if(i.getNum() > d.getBookNum()) {
-                                Toast.makeText(this, i.getName() + "数量不够，将所有库存" + num + "本卖出",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, i.getName() + "数量不够，将所有库存" + d.getBookNum() + "本卖出",Toast.LENGTH_SHORT).show();
                                 num = d.getBookNum();
                             }
                         }
                     }
                     total += price * num;
+                    saleInfoViewModel.insert(new SaleInfo(getId(), id, price, num));
+                    depositoryViewModel.update(new Depository(id, i.getName(), preNum - num));
                 }
                 Toast.makeText(this, "总价为" + total + " 元", Toast.LENGTH_SHORT).show();
-                int listId = getId();
-                for(Info i:list) {
-                    int id = 0;
-                    double price = 0.0;
-                    for(BookInfo f : books) {
-                        if(i.getName().equals(f.getBookName())){
-                            id = f.getBookId();
-                            price = f.getBookInPrice();
-                            break;
-                        }
-                    }
-                    saleInfoViewModel.insert(new SaleInfo(listId, id, price, num));
-                }
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
                 Date date = new Date(System.currentTimeMillis());
                 String d = formatter.format(date);
                 int vid = Integer.parseInt(vipId.getText().toString());
                 saleListViewModel.insert(new SaleList(getId(), total, d, vid));
+                String vName = "", vTime = "", vlevel = "青铜";
+                double vTotal = 0.0;
+                for(Membership m: mems) {
+                    if(m.getMemberId() == vid){
+                        vName = m.getMemberName();
+                        vTime = m.getRegisterTime();
+                        String preLevel = m.getLevel();
+                        vTotal = m.getTotalConsumption() + total;
+                        if(vTotal > 1000 && vTotal <= 2000) {
+                            vlevel = "白银";
+                        }else if(vTotal > 2000 && vTotal <= 5000){
+                            vlevel = "黄金";
+                        }else if(vTotal > 5000 && vTotal <= 10000){
+                            vlevel = "钻石";
+                        }else if(vTotal > 10000) {
+                            vlevel = "王者";
+                        }
+                        if(!preLevel.equals(vlevel)) {
+                            Toast.makeText(this, "恭喜您成为了" + vlevel + "vip！", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+                memberViewModel.update(new Membership(vid, vName, vTime, vTotal, vlevel));
                 finish();
             }
 
-            //todo:更新list仓库中每项数量。
         });
     }
 
@@ -169,7 +199,6 @@ public class AddSaleInfoActivity extends AppCompatActivity {
         yes.setOnClickListener(v -> {
             String name = nameEt.getText().toString();
             int num = Integer.parseInt(numEt.getText().toString());
-            //TODO:根据名字查询库中数量进行比较，最多将库中所有书卖出
             list.add(new Info(name, num));
             adapter.setmList(list);
             dialog.dismiss();
@@ -178,16 +207,20 @@ public class AddSaleInfoActivity extends AppCompatActivity {
 
     public int getId() {
         int id;
-        saleList = viewModel.getAllres().getValue();
+        saleListViewModel.getAllres().observe(this, new Observer<List<SaleList>>() {
+            @Override
+            public void onChanged(List<SaleList> saleLists) {
+                if(saleLists != null) {
+                    saleList.clear();
+                    saleList.addAll(saleLists);
+                }
+            }
+        });
         if(saleList == null) {
             id = 1;
         }else {
-            int count = 0;
-            for(SaleList i : saleList) {
-                count++;
-            }
-            id = count+1;
+            id = saleList.size();
         }
-        return id;
+        return id+1;
     }
 }

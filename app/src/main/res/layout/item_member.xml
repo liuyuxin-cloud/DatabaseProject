@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="青铜"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="12dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/mem_time"

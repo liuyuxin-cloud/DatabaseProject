@@ -31,4 +31,7 @@ public class MemberViewModel extends AndroidViewModel {
         repository.insert(membership);
     }
 
+    public void update(Membership membership) {
+        repository.update(membership);
+    }
 }

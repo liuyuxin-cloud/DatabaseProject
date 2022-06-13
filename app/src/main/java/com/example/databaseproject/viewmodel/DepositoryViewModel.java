@@ -30,4 +30,8 @@ public class DepositoryViewModel extends AndroidViewModel {
     public void insert(Depository repo) {
         repository.insert(repo);
     }
+
+    public void update(Depository depo) {
+        repository.update(depo);
+    }
 }

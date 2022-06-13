@@ -25,11 +25,18 @@ public class PurchaseListViewModel extends AndroidViewModel {
 
     private LiveData<List<PurchaseList>> allres;
 
+    public LiveData<List<PurchaseInfo>> getPurchaseInfos() {
+        return purchaseInfos;
+    }
+
+    private LiveData<List<PurchaseInfo>> purchaseInfos;
+
     public PurchaseListViewModel(@NonNull Application application) {
         super(application);
         repository = new PurchaseListRepository(application);
         purchaseInfoRepository = new PurchaseInfoRepository(application);
         allres = repository.getPurchaseList();
+        purchaseInfos = purchaseInfoRepository.getPurchaseInfo();
     }
     public void insertList(PurchaseList purchaseList) {
         repository.insert(purchaseList);

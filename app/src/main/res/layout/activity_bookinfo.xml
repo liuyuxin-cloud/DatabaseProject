@@ -65,7 +65,7 @@
         android:id="@+id/info_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="51dp"
+        android:layout_marginStart="49dp"
         android:text="我与地坛"
         android:textColor="#64BEBC"
         android:textSize="20sp"
@@ -141,7 +141,7 @@
         android:text="20￥"
         android:textColor="#64BEBC"
         android:textSize="20sp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="31dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView11"
         app:layout_constraintStart_toEndOf="@+id/textView11"
         app:layout_constraintTop_toTopOf="@+id/textView11" />

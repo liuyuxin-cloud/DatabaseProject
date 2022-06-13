@@ -65,7 +65,7 @@ public class BookInfoActivity extends AppCompatActivity {
             id.setText(bookInfo.getBookId() + "");
             name.setText(bookInfo.getBookName());
             press.setText(bookInfo.getBookPress());
-            price.setText(bookInfo.getBookOutPrice() + "");
+            price.setText(bookInfo.getBookOutPrice() + "￥");
             type.setText(bookInfo.getBookType());
         }
     }

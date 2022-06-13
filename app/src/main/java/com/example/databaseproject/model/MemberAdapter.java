@@ -42,6 +42,7 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberHold
             holder.id.setText(mList.get(position).getMemberId() + "");
             holder.time.setText(mList.get(position).getRegisterTime());
             holder.total.setText(mList.get(position).getTotalConsumption() + "￥");
+            holder.level.setText(mList.get(position).getLevel());
         }
     }
 
@@ -54,9 +55,10 @@ public class MemberAdapter extends RecyclerView.Adapter<MemberAdapter.MemberHold
     }
 
     class MemberHolder extends RecyclerView.ViewHolder{
-        private TextView name, id, time, total;
+        private TextView name, id, time, total, level;
         public MemberHolder(@NonNull View itemView) {
             super(itemView);
+            level = itemView.findViewById(R.id.mem_level);
             name = itemView.findViewById(R.id.mem_name);
             id = itemView.findViewById(R.id.mem_id);
             time = itemView.findViewById(R.id.mem_time);

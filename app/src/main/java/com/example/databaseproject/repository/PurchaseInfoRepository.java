@@ -9,18 +9,21 @@ import com.example.databaseproject.daos.PurchaseInfoDao;
 import com.example.databaseproject.database.BookStoreDatabase;
 import com.example.databaseproject.entities.PurchaseInfo;
 
+import java.util.List;
+
 public class PurchaseInfoRepository {
     private PurchaseInfoDao purchaseInfoDao;
 
-    public LiveData<PurchaseInfo> getPurchaseInfo() {
+    public LiveData<List<PurchaseInfo>> getPurchaseInfo() {
         return purchaseInfo;
     }
 
-    private LiveData<PurchaseInfo> purchaseInfo;
+    private LiveData<List<PurchaseInfo>> purchaseInfo;
 
     public PurchaseInfoRepository(Application application) {
         BookStoreDatabase db = BookStoreDatabase.getDatabase(application);
         purchaseInfoDao = db.purchaseInfoDao();
+        purchaseInfo = purchaseInfoDao.getPurchaseInfo();
     }
 
     public void insert(PurchaseInfo pur) {

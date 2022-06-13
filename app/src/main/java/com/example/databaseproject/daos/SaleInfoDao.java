@@ -20,6 +20,6 @@ public interface SaleInfoDao {
     @Insert
     void insertSaleInfo(SaleInfo saleInfo);
 
-    @Query("SELECT * FROM purchase_info")
+    @Query("SELECT * FROM sale_info")
     LiveData<List<SaleInfo>> getSaleInfo();
 }

@@ -1,14 +1,17 @@
 package com.example.databaseproject.model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.databaseproject.DetailActivity;
 import com.example.databaseproject.R;
 import com.example.databaseproject.entities.Depository;
 import com.example.databaseproject.entities.PurchaseList;
@@ -20,10 +23,12 @@ import java.util.List;
 public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.PurchaseViewHolder> {
 
     private final LayoutInflater mInflater;
+    private Context myContext;
     private List<PurchaseList> mLists = new ArrayList<>();
 
     public PurchaseAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
+        myContext = context;
     }
     @NonNull
     @Override
@@ -37,8 +42,14 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.Purcha
         if(mLists != null) {
             PurchaseList current = mLists.get(position);
             holder.listId.setText(current.getPurchaseId() + "");
-            holder.listPrice.setText(current.getTotalPrice() + "");
+            holder.listPrice.setText(current.getTotalPrice() + "￥");
             holder.listTime.setText(current.getPurchaseTime() + "");
+            holder.layout.setOnClickListener(v -> {
+                Intent intent = new Intent(myContext, DetailActivity.class);
+                intent.putExtra("id", current.getPurchaseId());
+                intent.putExtra("source", "purchase");
+                myContext.startActivity(intent);
+            });
         }
     }
 
@@ -57,11 +68,13 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.Purcha
 
     class PurchaseViewHolder extends RecyclerView.ViewHolder {
         private TextView listId, listPrice, listTime;
+        private ConstraintLayout layout;
         private PurchaseViewHolder (View itemView) {
             super(itemView);
             listId = itemView.findViewById(R.id.list_id);
             listPrice = itemView.findViewById(R.id.total_price);
             listTime = itemView.findViewById(R.id.list_time);
+            layout = itemView.findViewById(R.id.item_layout1);
         }
     }
 }

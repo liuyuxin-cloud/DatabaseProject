@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.databaseproject.entities.Depository;
 
@@ -24,4 +25,6 @@ public interface DepositoryDao {
     @Query("SELECT book_num FROM depository WHERE book_name = :name")
     LiveData<Integer> getBookNum(String name);
 
+    @Update
+    void updateDepo(Depository depository);
 }
